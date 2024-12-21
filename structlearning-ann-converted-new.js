@@ -775,7 +775,7 @@ async function experimentInit() {
       // Send data to OSF via DataPipe
       console.log('Saving data...');
 
-        const token = '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';
+        const token = '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';
 const owner = 'khanteymoori';
 const repo = 'StructureLearning';
 const path = `data/${filename}`;
