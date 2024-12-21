@@ -778,7 +778,7 @@ async function experimentInit() {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json', 
-              Accept: '*/*',
+              Accept: 'https://khanteymoori.github.io/*',
           },
           body: JSON.stringify({
               filename: filename,
