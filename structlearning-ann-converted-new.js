@@ -783,7 +783,7 @@ const message = 'Save experiment data';
 const content = btoa(data); // Encode data in Base64 (required by GitHub API)
 
 fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
