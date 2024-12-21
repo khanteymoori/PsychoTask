@@ -758,7 +758,7 @@ async function experimentInit() {
       endkey.keys = undefined;
       endkey.rt = undefined;
       _endkey_allKeys = [];
-     /*
+
       psychoJS._saveResults = 0; 
     
       // Generate filename for results
@@ -778,7 +778,7 @@ async function experimentInit() {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json', 
-              Accept: '* slash *',
+              Accept: '*/*',
           },
           body: JSON.stringify({
               filename: filename,
@@ -793,8 +793,6 @@ async function experimentInit() {
             console.error(error);
             quitPsychoJS();
         });
-
-        */
 
       psychoJS.experiment.addData('endroutine.started', globalClock.getTime());
       endroutineMaxDuration = null
