@@ -774,7 +774,7 @@ async function experimentInit() {
       
       // Send data to OSF via DataPipe
       console.log('Saving data...');
-      fetch('http://localhost:8080/save.php', {
+      fetch('save.php', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json', 
