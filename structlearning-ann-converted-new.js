@@ -774,25 +774,35 @@ async function experimentInit() {
       
       // Send data to OSF via DataPipe
       console.log('Saving data...');
-      fetch('save.php', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json', 
-              Accept: 'https://khanteymoori.github.io/*/*',
-          },
-          body: JSON.stringify({
-              filename: filename,
-              data: data,
-          }),
-      }).then(response => response.json()).then(data => {
-          // Log response and force experiment end
-          console.log(data);
-          quitPsychoJS();
-      }).catch(error => {
-            // Log error and force experiment end
-            console.error(error);
+
+        const token = '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';
+const owner = 'khanteymoori';
+const repo = 'StructureLearning';
+const path = `data/${filename}`;
+const message = 'Save experiment data';
+const content = btoa(data); // Encode data in Base64 (required by GitHub API)
+
+fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        message: message,
+        content: content,
+    }),
+})
+    .then(response => response.json())
+    .then(data => {
+        console.log('Data saved to GitHub:', data);
+                    quitPsychoJS();
+    })
+    .catch(error => {
+        console.error('Error saving data to GitHub:', error);
+
             quitPsychoJS();
-        });
+      });
 
       psychoJS.experiment.addData('endroutine.started', globalClock.getTime());
       endroutineMaxDuration = null
