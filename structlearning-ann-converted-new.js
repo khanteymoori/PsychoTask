@@ -775,19 +775,6 @@ async function experimentInit() {
 // Send data to Google Drive via Google Apps Script
 console.log('Saving data...');
 
-// Generate filename for results
-let filename = psychoJS._experiment._experimentName + '_' + psychoJS._experiment._datetime + '.csv';
-
-// Extract data object from experiment
-let dataObj = psychoJS._experiment._trialsData;
-
-// Convert data object to CSV
-let data = [Object.keys(dataObj[0])].concat(dataObj).map(it => {
-    return Object.values(it).toString()
-}).join('\n')
-
-// Send data to Dropbox via Dropbox API
-console.log('Saving data...');
 
 // Dropbox API URL
 const dropboxUrl = 'https://content.dropboxapi.com/2/files/upload';
