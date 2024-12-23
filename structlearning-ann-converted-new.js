@@ -772,38 +772,32 @@ async function experimentInit() {
           return Object.values(it).toString()
       }).join('\n')
       
-      // Send data to OSF via DataPipe
-      console.log('Saving data...');
+// Send data to Google Drive via Google Apps Script
+console.log('Saving data...');
 
-        const token = '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';
-const owner = 'khanteymoori';
-const repo = 'StructureLearning';
-const path = `data/${filename}`;
-const message = 'Save experiment data';
-const content = btoa(data); // Encode data in Base64 (required by GitHub API)
+// Your Google Apps Script Web App URL
+const webAppUrl = 'YOUR_WEB_APP_URL'; // Replace with your deployed Apps Script URL
 
-fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
-    method: 'PUT',
+fetch(webAppUrl, {
+    method: 'POST',
     headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({
-        message: message,
-        content: content,
+    body: new URLSearchParams({
+        fileName: filename, // Use the generated filename
+        data: data, // Send the CSV data
     }),
 })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Data saved to GitHub:', data);
-                    quitPsychoJS();
+    .then(response => response.text())
+    .then(result => {
+        console.log('Data saved to Google Drive:', result);
+        quitPsychoJS('Thank you for your participation!', true);
     })
     .catch(error => {
-        console.error('Error saving data to GitHub:', error);
-
-            quitPsychoJS();
-      });
-
+        console.error('Error saving data to Google Drive:', error);
+        quitPsychoJS('An error occurred while saving your data.', false);
+    });
+        
       psychoJS.experiment.addData('endroutine.started', globalClock.getTime());
       endroutineMaxDuration = null
       // keep track of which components have finished
