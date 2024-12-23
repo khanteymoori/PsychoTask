@@ -789,17 +789,9 @@ fetch(webAppUrl, {
         data: data,         // The CSV data
     }),
 })
-
-    .then(response => response.json())
-    .then(result => {
-        console.log('Data saved to Google Drive:', result.fileUrl);
-        quitPsychoJS('Thank you for your participation!', true);
-    })
-    .catch(error => {
-        console.error('Error saving data to Google Drive:', error);
-        quitPsychoJS('An error occurred while saving your data.', false);
-    });
-
+    .then(response => response.text())
+    .then(result => console.log('Data saved successfully:', result))
+    .catch(error => console.error('Error uploading data:', error));
 
         
 
