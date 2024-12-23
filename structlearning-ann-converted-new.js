@@ -778,6 +778,7 @@ console.log('Saving data...');
 // Your Google Apps Script Web App URL
 const webAppUrl = 'https://script.google.com/macros/s/AKfycbx8yU26dE_galRgUBnFf6X_2FSqY1uYPF_U1M5KZ6lV7Gn3L7vh0uZjfSU3GXD27l7f/exec'; // Replace with your deployed Apps Script URL
 
+
 fetch(webAppUrl, {
     method: 'POST',
     headers: {
@@ -797,6 +798,7 @@ fetch(webAppUrl, {
         console.error('Error saving data to Google Drive:', error);
         quitPsychoJS('An error occurred while saving your data.', false);
     });
+
 
       psychoJS.experiment.addData('endroutine.started', globalClock.getTime());
       endroutineMaxDuration = null
