@@ -775,23 +775,51 @@ async function experimentInit() {
 // Send data to Google Drive via Google Apps Script
 console.log('Saving data...');
 
-// Your Google Apps Script Web App URL
-const webAppUrl = 'https://script.google.com/macros/s/AKfycbzK2_U9ufXV0-5_lcczHebsXDJ6Iz0EKvnyaDbmIAyFBX7wv7ht9WD1Q2ym_Z1a2bF_/exec'; // Replace with your deployed Apps Script URL
+// Generate filename for results
+let filename = psychoJS._experiment._experimentName + '_' + psychoJS._experiment._datetime + '.csv';
 
+// Extract data object from experiment
+let dataObj = psychoJS._experiment._trialsData;
 
-fetch(webAppUrl, {
-   method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-        fileName: filename, // Your generated filename
-        data: data,         // The CSV data
-    }),
+// Convert data object to CSV
+let data = [Object.keys(dataObj[0])].concat(dataObj).map(it => {
+    return Object.values(it).toString()
+}).join('\n')
+
+// Send data to Dropbox via Dropbox API
+console.log('Saving data...');
+
+// Dropbox API URL
+const dropboxUrl = 'https://content.dropboxapi.com/2/files/upload';
+
+// Your Dropbox Access Token
+const accessToken = 'sl.u.AFZo8028ViZsUb6va5EFYjAI39TuZATkaXZ9kbNr4YdxSUwfKSCoBRJRxtsIWQnMq-MmqQsA_vI94Jdi0nKEBvuIDa2wDbi67XGp8yYO12RznCDJeF5YFFhNcvAMZlWyaMxidZbdhD0hjtJgnK4tfIJWAh729HEq2hqfYwcTmVxMNNsFPlxJZ8oi3W9PKff1n6beAaktTSuw34q2TNdVWryhk-7dSKk_gjQQInMQt3I_cmI1BbVdXRuB-ue3UVPryiIvnZ13RmheIMMxm4IAUvB9ywZC-ZTBac0M8aoj7B_os9veeAu5Bq5oOehSMY4-7DzPoyjhH9rRDZim27ge7Wx-yvxOKh4ova83nWgKV7UQ8adojAGAjfhBVm1ZVGzmbCbEa4xRv2r4mQQv0GXsnVZNQcfuEFaMKmZmgwJ6JLXhErPoQEyDwa6viHpoEb0VGWGTEN8FVBygBccxO91hJr6tHpA5dDkbKWbUBP4PAVP9XNKnLtgUIKmiUBh-mxQ7Qf2h72yWum2SAzNOiglvKos3hMsbgZjYhhnDv5_U8YomdUEEI2VoHQ1yZMabrZQNho6EJcg10p2UPMUVlVlbzw5aupJLA3lrWP0bz-OMplzHArJSmPeg19iLcDlIEE4b53fRmWj_69Ad5HIfiCZlkAtjMmxszdoWOGTK-VKxfCfKOKO6UdWNA3mYIinML50hOdgy2mjhG_kKDqWHj1M-2W0mHJ4N18IBEgmuaTwC5ptiZiEs14D2cjHoBu58_JIBSCbA-SD0cNd7lxptAqH5gN0Ngclorcp2y8A4jrz8ywlPTS06URBJU4Ht-_ci3G-9S69NNZ918zegkGhAUpGCvNVCHmlGd1jkrOe4yq5DfcYgJozNFS2LAyS2smO2YaeF9rhgl-ZuwZfZL329E8auovcSmS-vWAha4ABlEIFaO3XTIDb_zLGH0XQAiUCNfMrH3iWzX21FvAoVnGdXlk0tjIQOJqdvhr_b0yCw2pUh7837uDaSVGzZUJstGuadGtgUangCxmbnL20dvWbCPHHafk5QQW5pkmHD30XsCaSAXQDTtBtZwUlDEIeMguIQZDXukfMnPcp1OeRcZUfAI_u2fdevt8pnRvqc56PjtWdeVNy9EYtBVwCQM88rMM7JGrpnW4w1M0CzxzWI65cTQxy69g2PDeevLyMcpyaqvmmD1htqHyaxxUCHPfhlsAW_YQPN5sSFXnlfv4b15wO82555MIQpwWImoWKrh0L6ie1dDjjurvFH1wR-8ee_DjOgUfGDudn1VQ9tGWRzZpnHSgPbm_mj5QD-k33ye3OF9iQAnRqXTQ'; // Replace with your actual Dropbox access token
+
+// Prepare headers for the Dropbox API request
+const headers = {
+    "Authorization": "Bearer " + accessToken,
+    "Content-Type": "application/octet-stream",
+    "Dropbox-API-Arg": JSON.stringify({
+        path: '/ExperimentData/' + filename, // Path to the folder where you want to store the file
+        mode: "add", // "add" will create the file if it doesn't exist, or overwrite if it does
+        autorename: true, // Automatically rename the file if there's a conflict
+        mute: false // Don't mute notifications
+    })
+};
+
+// Send the data to Dropbox
+fetch(dropboxUrl, {
+    method: 'POST',
+    headers: headers,
+    body: data // The actual data (CSV content in the request body)
 })
-    .then(response => response.text())
-    .then(result => console.log('Data saved successfully:', result))
-    .catch(error => console.error('Error uploading data:', error));
+    .then(response => response.json())
+    .then(responseData => {
+        console.log('Data saved successfully to Dropbox:', responseData);
+    })
+    .catch(error => {
+        console.error('Error uploading data to Dropbox:', error);
+    });
 
         
 
