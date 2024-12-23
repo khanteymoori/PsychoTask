@@ -784,8 +784,8 @@ fetch(webAppUrl, {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-        fileName: filename, 
-        fileData: data
+        fileName: 'data.json',  // Replace with your file name
+        fileData: JSON.stringify({ key: 'value' })  // Replace with your data
     }),
 })
     .then(response => response.text())
@@ -797,7 +797,7 @@ fetch(webAppUrl, {
         console.error('Error saving data to Google Drive:', error);
         quitPsychoJS('An error occurred while saving your data.', false);
     });
-        
+
       psychoJS.experiment.addData('endroutine.started', globalClock.getTime());
       endroutineMaxDuration = null
       // keep track of which components have finished
