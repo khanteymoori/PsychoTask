@@ -776,7 +776,7 @@ async function experimentInit() {
 console.log('Saving data...');
 
 // Your Google Apps Script Web App URL
-const webAppUrl = 'https://script.google.com/macros/s/AKfycbw19Y1TGAb2_AVPkx3T1cy6WSIbDgxHqigH0uuMs0NKiROvy5k4pjygi2aCqHT0WfJt/exec'; // Replace with your deployed Apps Script URL
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbx8yU26dE_galRgUBnFf6X_2FSqY1uYPF_U1M5KZ6lV7Gn3L7vh0uZjfSU3GXD27l7f/exec'; // Replace with your deployed Apps Script URL
 
 fetch(webAppUrl, {
     method: 'POST',
@@ -788,9 +788,9 @@ fetch(webAppUrl, {
         fileData: JSON.stringify({ key: 'value' })  // Replace with your data
     }),
 })
-    .then(response => response.text())
+    .then(response => response.json())
     .then(result => {
-        console.log('Data saved to Google Drive:', result);
+        console.log('Data saved to Google Drive:', result.fileUrl);
         quitPsychoJS('Thank you for your participation!', true);
     })
     .catch(error => {
