@@ -781,11 +781,11 @@ const webAppUrl = 'https://script.google.com/macros/s/AKfycbw19Y1TGAb2_AVPkx3T1c
 fetch(webAppUrl, {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
     },
-    body: new URLSearchParams({
-        fileName: filename, // Use the generated filename
-        data: data, // Send the CSV data
+    body: JSON.stringify({
+        fileName: filename, 
+        fileData: data
     }),
 })
     .then(response => response.text())
