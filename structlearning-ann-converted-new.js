@@ -782,10 +782,11 @@ const webAppUrl = 'https://script.google.com/macros/s/AKfycbxweyBCMX2E--ilBlE4C2
 fetch(webAppUrl, {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        fileName: 'data.json',  // Replace with your file name
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: new URLSearchParams({
+    fileName: 'data.json',  // Replace with your file name
         fileData: JSON.stringify({ key: 'value' })  // Replace with your data
     }),
 })
@@ -799,6 +800,8 @@ fetch(webAppUrl, {
         quitPsychoJS('An error occurred while saving your data.', false);
     });
 
+
+        
 
       psychoJS.experiment.addData('endroutine.started', globalClock.getTime());
       endroutineMaxDuration = null
