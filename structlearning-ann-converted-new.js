@@ -776,20 +776,20 @@ async function experimentInit() {
 console.log('Saving data...');
 
 // Your Google Apps Script Web App URL
-const webAppUrl = 'https://script.google.com/macros/s/AKfycbzaFiDbNuxTuTIPp7x2Dv-Cb5YZEvETswVsPixX1i78IpauJghVeQyi5RMFTCJ4nMJD/exec'; // Replace with your deployed Apps Script URL
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbyiCS3fZa2DbKPnrQJomAIf_89C6D0vaoEKFQdAT3Oc7wbQAVQ4i2uy6ZcVu2fRDrB5/exec'; // Replace with your deployed Apps Script URL
 
 
 fetch(webAppUrl, {
-    method: 'POST',
+   method: 'POST',
     headers: {
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  body: new URLSearchParams({
-    fileName: 'data.json',  // Replace with your file name
-        fileData: JSON.stringify({ key: 'value' })  // Replace with your data
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+        fileName: filename, // Your generated filename
+        data: data,         // The CSV data
     }),
 })
+
     .then(response => response.json())
     .then(result => {
         console.log('Data saved to Google Drive:', result.fileUrl);
