@@ -776,7 +776,7 @@ async function experimentInit() {
 console.log('Saving data...');
 
 // Your Google Apps Script Web App URL
-const webAppUrl = 'https://script.google.com/home/projects/13H5IV0iBPg6pDX6Y8gzlIUIVTJPV5fWsIn2_7SWKEzu555Pcd0fUa_Pt'; // Replace with your deployed Apps Script URL
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbw19Y1TGAb2_AVPkx3T1cy6WSIbDgxHqigH0uuMs0NKiROvy5k4pjygi2aCqHT0WfJt/exec'; // Replace with your deployed Apps Script URL
 
 fetch(webAppUrl, {
     method: 'POST',
